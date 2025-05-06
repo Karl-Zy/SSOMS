@@ -22,7 +22,8 @@ public class SSOMS extends Application {
         stage.setTitle("SSOMS");
         stage.setScene(scene);
         stage.show();
-        stage.setResizable(false);
+        stage.setResizable(false); 
+          
     }
 
     /**
