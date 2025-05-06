@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="601.0" style="-fx-background-color: linear-gradient(to right, #ffffff, #e6f7f4);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssoms.LoginController">
+   <children>
+
+      <!-- Left section with logo -->
+      <AnchorPane prefHeight="400.0" prefWidth="280.0" style="-fx-background-color: white;">
+         <children>
+            <ImageView fitHeight="312.0" fitWidth="322.0" layoutX="2.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../ASSETS/Logo.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+
+      <!-- Right section: Login -->
+      <AnchorPane layoutX="313.0" prefHeight="400.0" prefWidth="340.0" style="-fx-background-color: #F5FEFD; -fx-background-radius: 20 0 0 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.1, 0, 2);">
+         <children>
+
+            <!-- Title -->
+            <Text fill="#2E8B57" layoutX="74.0" layoutY="67.0" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-font-family: 'Segoe UI';" text="Welcome Back!" />
+
+            <!-- Username icon -->
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="18.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../ASSETS/1.png" />
+               </image>
+            </ImageView>
+
+            <!-- Username field -->
+            <TextField fx:id="usernameLogin" layoutX="63.0" layoutY="130.0" prefHeight="42.0" prefWidth="210.0" promptText="Username" style="-fx-background-color: #F0F0F0; -fx-background-radius: 8; -fx-padding: 8 12; -fx-font-size: 13px;" />
+
+            <!-- Password icon -->
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="18.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../ASSETS/2.png" />
+               </image>
+            </ImageView>
+
+            <!-- Password field -->
+            <PasswordField fx:id="passwordLogin" layoutX="63.0" layoutY="216.0" prefHeight="41.0" prefWidth="210.0" promptText="Password" style="-fx-background-color: #F0F0F0; -fx-background-radius: 8; -fx-padding: 8 12; -fx-font-size: 13px;" />
+
+            <!-- Login button -->
+            <Button layoutX="119.0" layoutY="307.0" onAction="#lgnButtonOnAction" prefWidth="102.0" style="-fx-background-color: #2E8B57; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 25;" text="Login" />
+            <Text fill="#2E8B57" layoutX="63.0" layoutY="122.0" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-font-family: 'Segoe UI';" text="Username" />
+            <Text fill="#2E8B57" layoutX="63.0" layoutY="210.0" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-font-family: 'Segoe UI';" text="Password" />
+         </children>
+      </AnchorPane>
+
+   </children>
+</AnchorPane>
