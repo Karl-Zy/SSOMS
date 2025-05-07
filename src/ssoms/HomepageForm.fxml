@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -33,7 +35,7 @@
             </Pane>
 
             <!-- Duplicate buttons (same styling) -->
-            <Button fx:id="perinf" onAction="#handleClicks" alignment="BASELINE_LEFT" mnemonicParsing="false"  prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Personnel Information">
+            <Button fx:id="perinf" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Personnel Information">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -55,7 +57,7 @@
                </cursor>
             </Button>
 
-            <Button fx:id="orgChart" onAction="#handleClicks" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Organizational Chart">
+            <Button fx:id="orgChart" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Organizational Chart">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -74,7 +76,7 @@
                </VBox.margin>
             </Button>
 
-            <Button fx:id="visLog" onAction="#handleClicks" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Visitor's Logbook">
+            <Button fx:id="visLog" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Visitor's Logbook">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -92,7 +94,7 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="incidentRep" onAction="#handleClicks" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Incident Report">
+            <Button fx:id="incidentRep" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Incident Report">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -121,18 +123,29 @@
          <children>
             <TableView fx:id="table" prefHeight="188.0" prefWidth="744.0" GridPane.rowIndex="1">
               <columns>
-                <TableColumn fx:id="idNUm" prefWidth="87.99996948242188" text="ID" />
-                <TableColumn fx:id="firstNameColumn" minWidth="5.5999755859375" prefWidth="301.33343505859375" text="FirstName" />
-                  <TableColumn fx:id="lastNameColumn" minWidth="5.5999755859375" prefWidth="302.6666259765625" text="LastName" />
+                <TableColumn fx:id="idNUm" prefWidth="98.66665649414062" text="ID" />
+                <TableColumn fx:id="firstNameColumn" minWidth="5.5999755859375" prefWidth="161.33331298828125" text="FirstName" />
+                  <TableColumn fx:id="lastNameColumn" minWidth="5.5999755859375" prefWidth="251.3333740234375" text="LastName" />
+                  <TableColumn fx:id="birthDateColumn" minWidth="5.5999755859375" prefWidth="148.0" text="BirthDate" />
+                  <TableColumn fx:id="genderColumn" minWidth="5.5999755859375" prefWidth="83.33331298828125" text="Gender" />
               </columns>
             </TableView>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="firstName" alignment="TOP_LEFT" prefHeight="26.0" prefWidth="191.0">
+                  <TextField fx:id="firstName" alignment="TOP_LEFT" prefHeight="26.0" prefWidth="147.0">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin></TextField>
-                  <TextField fx:id="lastName" alignment="TOP_LEFT" layoutX="10.0" layoutY="17.0" prefHeight="26.0" prefWidth="287.0" />
+                  <TextField fx:id="lastName" alignment="TOP_LEFT" layoutX="10.0" layoutY="17.0" prefHeight="26.0" prefWidth="163.0">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></TextField>
+                  <TextField fx:id="gender" alignment="TOP_LEFT" layoutX="167.0" layoutY="17.0" prefHeight="26.0" prefWidth="66.0">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <DatePicker fx:id="bday" />
                   <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#addPersonel" prefHeight="23.0" prefWidth="178.0" style="-fx-background-color: green; -fx-text-fill: white;" text="Add Personels">
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
@@ -166,5 +179,9 @@
             </Text>
          </children>
       </Pane>
+      <Label layoutX="293.0" layoutY="175.0" text="First Name: " />
+      <Label layoutX="444.0" layoutY="175.0" text="Last Name: " />
+      <Label layoutX="677.0" layoutY="176.0" text="Birth Date: " />
+      <Label layoutX="607.0" layoutY="176.0" text="Gender: " />
    </children>
 </AnchorPane>
