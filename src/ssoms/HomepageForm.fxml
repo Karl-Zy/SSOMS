@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane id="AnchorPane" prefHeight="564.0" prefWidth="1030.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssoms.HomepageController">
    <children>
@@ -147,5 +148,19 @@
             </HBox>
          </children>
       </GridPane>
+      <Pane layoutX="283.0" layoutY="42.0" prefHeight="115.0" prefWidth="750.0" style="-fx-background-color: #008000;">
+         <children>
+            <Text layoutX="80.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: 'Segoe UI';" text="PERSONEL">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="80.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: 'Segoe UI';" text="HOME/PERSONELs">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
