@@ -1,0 +1,19 @@
+
+/* Base button style for sidebar */
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-alignment: BASELINE_LEFT;
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 0 40px; /* Top, Right, Bottom, Left */
+}
+
+/* Hover effect */
+.sidebar-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.2); /* Light transparent white */
+}
+
+/* Pressed (click) effect */
+.sidebar-button:pressed {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}

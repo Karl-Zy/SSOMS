@@ -1,0 +1,29 @@
+
+/* Base style for sidebar buttons */
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-padding: 10 20;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0.0, 0, 1);
+}
+
+/* Hover effect: light transparent overlay */
+.sidebar-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Pressed (clicked) effect: slightly darker overlay */
+.sidebar-button:pressed {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Optional: active/selected button state */
+.sidebar-button.active {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
+    -fx-font-weight: bold;
+}
