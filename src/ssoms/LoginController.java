@@ -33,7 +33,7 @@ public class LoginController {
     
       @FXML
     private void initialize() {
-        // Hover effect
+       
         LoginButton.setOnMouseEntered((MouseEvent e) -> {
             LoginButton.setStyle("-fx-background-color: #3CB371; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 25;");
         });
@@ -51,8 +51,13 @@ public class LoginController {
         });
     }
 
-    private void lgnButtonOnAction(ActionEvent event) throws IOException {
-         String usern = usernameLogin.getText();
+  
+       
+
+
+    @FXML
+    private void lgnButtonOnAction(javafx.event.ActionEvent event) throws IOException {
+          String usern = usernameLogin.getText();
         String passw = passwordLogin.getText();
      
 
@@ -63,7 +68,7 @@ public class LoginController {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             primaryStage.setScene(new Scene(root));
             primaryStage.centerOnScreen();
-            primaryStage.setTitle("Verdant's Kitchen");
+            primaryStage.setTitle("SSOMS");
             primaryStage.show();
             primaryStage.setResizable(false);
 
@@ -74,11 +79,7 @@ public class LoginController {
             alert.setContentText("Invalid username or password.");
             alert.showAndWait();
         }
-    }
-
-
-    @FXML
-    private void lgnButtonOnAction(javafx.event.ActionEvent event) {
+    
     }
         
 }

@@ -33,7 +33,7 @@
             </Pane>
 
             <!-- Duplicate buttons (same styling) -->
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Personnel Information">
+            <Button fx:id="perinf" onAction="#handleClicks" alignment="BASELINE_LEFT" mnemonicParsing="false"  prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Personnel Information">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -55,7 +55,7 @@
                </cursor>
             </Button>
 
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Personnel Information">
+            <Button fx:id="orgChart" onAction="#handleClicks" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Organizational Chart">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -74,7 +74,7 @@
                </VBox.margin>
             </Button>
 
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Personnel Information">
+            <Button fx:id="visLog" onAction="#handleClicks" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Visitor's Logbook">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -92,7 +92,7 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Personnel Information">
+            <Button fx:id="incidentRep" onAction="#handleClicks" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Incident Report">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -119,17 +119,21 @@
           <RowConstraints maxHeight="344.8" minHeight="10.0" prefHeight="331.20000610351565" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TableView prefHeight="188.0" prefWidth="744.0" GridPane.rowIndex="1">
+            <TableView fx:id="table" prefHeight="188.0" prefWidth="744.0" GridPane.rowIndex="1">
               <columns>
-                <TableColumn prefWidth="87.99996948242188" text="ID" />
-                <TableColumn minWidth="5.5999755859375" prefWidth="209.60003662109375" text="FirstName" />
-                  <TableColumn minWidth="5.5999755859375" prefWidth="151.20001220703125" text="LastName" />
+                <TableColumn fx:id="idNUm" prefWidth="87.99996948242188" text="ID" />
+                <TableColumn fx:id="firstNameColumn" minWidth="5.5999755859375" prefWidth="301.33343505859375" text="FirstName" />
+                  <TableColumn fx:id="lastNameColumn" minWidth="5.5999755859375" prefWidth="302.6666259765625" text="LastName" />
               </columns>
             </TableView>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <TextField alignment="TOP_LEFT" prefHeight="26.0" prefWidth="354.0" />
-                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="23.0" prefWidth="178.0" style="-fx-background-color: green; -fx-text-fill: white;" text="Add Personels">
+                  <TextField fx:id="firstName" alignment="TOP_LEFT" prefHeight="26.0" prefWidth="191.0">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></TextField>
+                  <TextField fx:id="lastName" alignment="TOP_LEFT" layoutX="10.0" layoutY="17.0" prefHeight="26.0" prefWidth="287.0" />
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#addPersonel" prefHeight="23.0" prefWidth="178.0" style="-fx-background-color: green; -fx-text-fill: white;" text="Add Personels">
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -150,12 +154,12 @@
       </GridPane>
       <Pane layoutX="283.0" layoutY="42.0" prefHeight="115.0" prefWidth="750.0" style="-fx-background-color: #008000;">
          <children>
-            <Text layoutX="80.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: 'Segoe UI';" text="PERSONEL">
+            <Text fx:id="upperlbl" layoutX="80.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: 'Segoe UI';" text="PERSONEL">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text layoutX="80.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: 'Segoe UI';" text="HOME/PERSONELs">
+            <Text fx:id="lowerlbl" layoutX="80.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: 'Segoe UI';" text="HOME/PERSONELs">
                <font>
                   <Font size="13.0" />
                </font>
