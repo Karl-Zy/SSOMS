@@ -147,62 +147,6 @@
       </Pane>
       <StackPane layoutX="286.0" layoutY="166.0">
          <children>
-            <GridPane fx:id="gp1" alignment="CENTER_LEFT" prefHeight="334.0" prefWidth="744.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="179.79999389648438" minHeight="10.0" prefHeight="57.59999389648438" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="344.8" minHeight="10.0" prefHeight="313.6000061035156" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" />
-                  <TableView fx:id="table" prefHeight="329.0" prefWidth="744.0" GridPane.rowIndex="1">
-                    <columns>
-                      <TableColumn fx:id="idNUm" prefWidth="98.66665649414062" text="ID" />
-                      <TableColumn fx:id="firstNameColumn" minWidth="5.5999755859375" prefWidth="161.33331298828125" text="FirstName" />
-                        <TableColumn fx:id="lastNameColumn" minWidth="5.5999755859375" prefWidth="251.3333740234375" text="LastName" />
-                        <TableColumn fx:id="birthDateColumn" minWidth="5.5999755859375" prefWidth="148.0" text="BirthDate" />
-                        <TableColumn fx:id="genderColumn" minWidth="5.5999755859375" prefWidth="83.33331298828125" text="Gender" />
-                    </columns>
-                  </TableView>
-                  <HBox alignment="CENTER_LEFT" prefHeight="15.0" prefWidth="744.0">
-                     <children>
-                        <TextField fx:id="firstName" alignment="TOP_LEFT" prefHeight="26.0" prefWidth="147.0" promptText="First Name">
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <TextField fx:id="lastName" alignment="TOP_LEFT" layoutX="10.0" layoutY="17.0" prefHeight="26.0" prefWidth="163.0" promptText="Last Name">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <TextField fx:id="gender" alignment="TOP_LEFT" layoutX="167.0" layoutY="17.0" prefHeight="26.0" prefWidth="66.0" promptText="Gender">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <DatePicker fx:id="bday" promptText="Birth Date" />
-                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#addPersonel" prefHeight="30.0" prefWidth="154.0" style="-fx-background-color: green; -fx-text-fill: white;" text="Add Personels">
-                           <graphic>
-                              <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../ASSETS/users.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-            </GridPane>
             <GridPane fx:id="gp2" prefHeight="365.0" prefWidth="744.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -344,6 +288,62 @@
                         <TextArea fx:id="medium" layoutX="264.0" layoutY="144.0" prefHeight="215.0" prefWidth="216.0" />
                         <TextArea fx:id="high" layoutX="507.0" layoutY="144.0" prefHeight="215.0" prefWidth="216.0" />
                      </children></Pane>
+               </children>
+            </GridPane>
+            <GridPane fx:id="gp1" alignment="CENTER_LEFT" prefHeight="334.0" prefWidth="744.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="179.79999389648438" minHeight="10.0" prefHeight="57.59999389648438" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="344.8" minHeight="10.0" prefHeight="313.6000061035156" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" />
+                  <TableView fx:id="table" prefHeight="329.0" prefWidth="744.0" GridPane.rowIndex="1">
+                    <columns>
+                      <TableColumn fx:id="idNUm" prefWidth="98.66665649414062" text="ID" />
+                      <TableColumn fx:id="firstNameColumn" minWidth="5.5999755859375" prefWidth="161.33331298828125" text="FirstName" />
+                        <TableColumn fx:id="lastNameColumn" minWidth="5.5999755859375" prefWidth="251.3333740234375" text="LastName" />
+                        <TableColumn fx:id="birthDateColumn" minWidth="5.5999755859375" prefWidth="148.0" text="BirthDate" />
+                        <TableColumn fx:id="genderColumn" minWidth="5.5999755859375" prefWidth="83.33331298828125" text="Gender" />
+                    </columns>
+                  </TableView>
+                  <HBox alignment="CENTER_LEFT" prefHeight="15.0" prefWidth="744.0">
+                     <children>
+                        <TextField fx:id="firstName" alignment="TOP_LEFT" prefHeight="26.0" prefWidth="147.0" promptText="First Name">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <TextField fx:id="lastName" alignment="TOP_LEFT" layoutX="10.0" layoutY="17.0" prefHeight="26.0" prefWidth="163.0" promptText="Last Name">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <TextField fx:id="gender" alignment="TOP_LEFT" layoutX="167.0" layoutY="17.0" prefHeight="26.0" prefWidth="66.0" promptText="Gender">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <DatePicker fx:id="bday" promptText="Birth Date" />
+                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#addPersonel" prefHeight="30.0" prefWidth="154.0" style="-fx-background-color: green; -fx-text-fill: white;" text="Add Personels">
+                           <graphic>
+                              <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../ASSETS/users.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
             </GridPane>
          </children>
