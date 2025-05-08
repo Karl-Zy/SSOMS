@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
 public class HomepageController {
@@ -36,7 +37,6 @@ public class HomepageController {
     private Text upperlbl;
     @FXML
     private Text lowerlbl;
-
     @FXML
     public Button perinf;
     @FXML
@@ -47,8 +47,17 @@ public class HomepageController {
     public Button incidentRep;
 
     private ObservableList<Person> data = FXCollections.observableArrayList();
-
     @FXML
+    private Button incidentRep1;
+    @FXML
+    private GridPane gp1;
+    @FXML
+    private GridPane gp2;
+    @FXML
+    private GridPane gp3;
+    @FXML
+    private GridPane gp4;
+
     public void initialize() {
         idNUm.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
         firstNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName()));
@@ -79,19 +88,24 @@ public class HomepageController {
         if (event.getSource() == perinf) {
             upperlbl.setText("PERSONNEL");
             lowerlbl.setText("home/personnels");
+            gp1.toFront();
         } else if (event.getSource() == orgChart) {
             upperlbl.setText("ORGANIZATIONAL CHART");
             lowerlbl.setText("home/orgChart");
+            gp2.toFront();
         } else if (event.getSource() == visLog) {
-            upperlbl.setText("VISITOR's Logbook");
+            upperlbl.setText("VISITOR's LOGBOOK");
             lowerlbl.setText("home/visLog");
+            gp3.toFront();
         } else if (event.getSource() == incidentRep) {
             upperlbl.setText("INCIDENT REPORTS");
             lowerlbl.setText("home/inciReport");
+            gp4.toFront();
         }
     }
 
     public static class Person {
+
         private final SimpleStringProperty id;
         private final SimpleStringProperty firstName;
         private final SimpleStringProperty lastName;
@@ -106,10 +120,24 @@ public class HomepageController {
             this.birthDate = new SimpleStringProperty(birthDate);
         }
 
-        public String getId() { return id.get(); }
-        public String getFirstName() { return firstName.get(); }
-        public String getLastName() { return lastName.get(); }
-        public String getGender() { return gender.get(); }
-        public String getBirthDate() { return birthDate.get(); }
+        public String getId() {
+            return id.get();
+        }
+
+        public String getFirstName() {
+            return firstName.get();
+        }
+
+        public String getLastName() {
+            return lastName.get();
+        }
+
+        public String getGender() {
+            return gender.get();
+        }
+
+        public String getBirthDate() {
+            return birthDate.get();
+        }
     }
 }
