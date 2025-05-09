@@ -1,13 +1,18 @@
 package ssoms;
 
+import java.io.IOException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class HomepageController {
 
@@ -48,8 +53,6 @@ public class HomepageController {
 
     private ObservableList<Person> personnelList = FXCollections.observableArrayList();
     private ObservableList<Person> visitorList = FXCollections.observableArrayList();
-    @FXML
-    private Button incidentRep1;
     @FXML
     private GridPane gp1;
     @FXML
@@ -107,6 +110,7 @@ public class HomepageController {
     @FXML
     private TextArea cause;
 
+    @FXML
     public void initialize() {
 
         idNUm.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
@@ -131,8 +135,6 @@ public class HomepageController {
 
         tvname2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getLastName()));
         desigarea.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPurpose()));
-        table2.setItems(assignedOfficers);
-
         level.setItems(FXCollections.observableArrayList("Severity 1 (High)", "Severity 2 (Medium)", "Severity 3 (Low)"));
         low.setEditable(false);
         medium.setEditable(false);
@@ -173,8 +175,8 @@ public class HomepageController {
             lowerlbl.setText("home/personnels");
             gp1.toFront();
         } else if (event.getSource() == orgChart) {
-            upperlbl.setText("ORGANIZATIONAL CHART");
-            lowerlbl.setText("home/orgChart");
+            upperlbl.setText("EVENT HANDLER");
+            lowerlbl.setText("home/eventHandler");
             gp2.toFront();
         } else if (event.getSource() == visLog) {
             upperlbl.setText("VISITOR's LOGBOOK");
@@ -194,7 +196,14 @@ public class HomepageController {
         String ln = ln3.getText().trim();
         String gen = gen3.getText().trim();
         String purpose = purpose3.getText().trim();
-        String date = (date3.getValue() != null) ? date3.getValue().toString() : "";
+        String date = "";
+        if (date3.getValue() != null) {
+            java.time.LocalDate datePart = date3.getValue();
+            java.time.LocalTime timePart = java.time.LocalTime.now();
+            java.time.LocalDateTime dateTime = java.time.LocalDateTime.of(datePart, timePart);
+            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            date = dateTime.format(formatter);
+        }
 
         if (fn.isEmpty() || ln.isEmpty() || gen.isEmpty() || purpose.isEmpty() || date.isEmpty()) {
 
@@ -239,7 +248,6 @@ public class HomepageController {
             return;
         }
 
-        
         String[] nameParts = selectedOfficer.split(" ", 2);
         String fn = nameParts[0];
         String ln = (nameParts.length > 1) ? nameParts[1] : "";
@@ -258,7 +266,6 @@ public class HomepageController {
         Person officer = new Person(fn, ln, "", "", selectedArea);
         assignedOfficers.add(officer);
 
-        
         officers.getSelectionModel().clearSelection();
         area.getSelectionModel().clearSelection();
 
@@ -289,9 +296,16 @@ public class HomepageController {
     private void report(ActionEvent event) {
 
         String selectedSeverity = level.getSelectionModel().getSelectedItem();
-        String selectedOfficer = officers2.getSelectionModel().getSelectedItem(); // Use officers2, which is used in the FXML
+        String selectedOfficer = officers2.getSelectionModel().getSelectedItem();
         String incidentCause = cause.getText().trim();
-        String reportDate = (incidentDate.getValue() != null) ? incidentDate.getValue().toString() : "";
+        String reportDate = "";
+        if (incidentDate.getValue() != null) {
+            java.time.LocalDate date = incidentDate.getValue();
+            java.time.LocalTime time = java.time.LocalTime.now();
+            java.time.LocalDateTime dateTime = java.time.LocalDateTime.of(date, time);
+            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            reportDate = dateTime.format(formatter);
+        }
 
         if (selectedSeverity == null || selectedOfficer == null || reportDate.isEmpty() || incidentCause.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -324,11 +338,47 @@ public class HomepageController {
         success.setContentText("Incident information has been recorded.");
         success.showAndWait();
 
-        
         level.getSelectionModel().clearSelection();
         officers2.getSelectionModel().clearSelection();
         incidentDate.setValue(null);
         cause.clear();
+    }
+
+    @FXML
+    private void logout(ActionEvent event) {
+
+        Alert confirmLogout = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmLogout.setTitle("Confirm Logout");
+        confirmLogout.setHeaderText("Are you sure you want to log out?");
+        confirmLogout.setContentText("Click 'Yes' to log out or 'No' to stay on this page.");
+
+        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+        confirmLogout.getButtonTypes().setAll(yesButton, noButton);
+
+        confirmLogout.showAndWait().ifPresent(response -> {
+            if (response == yesButton) {
+                try {
+                    
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginForm.fxml"));
+                    Parent root = loader.load();
+
+                    
+                    Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("Login");
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Error");
+                    errorAlert.setHeaderText("Logout Failed");
+                    errorAlert.setContentText("Unable to load the login screen.");
+                    errorAlert.showAndWait();
+                }
+            }
+            
+        });
     }
 
     public static class Person {
@@ -340,12 +390,10 @@ public class HomepageController {
         private final SimpleStringProperty birthDate;
         private final SimpleStringProperty purpose;
 
-        
         public Person(String firstName, String lastName, String gender, String birthDate) {
             this(firstName, lastName, gender, birthDate, "");
         }
 
-        
         public Person(String firstName, String lastName, String gender, String birthDate, String purpose) {
             this.id = new SimpleStringProperty(String.valueOf((int) (Math.random() * 9000 + 1000)));
             this.firstName = new SimpleStringProperty(firstName);

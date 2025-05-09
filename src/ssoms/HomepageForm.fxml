@@ -120,7 +120,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="incidentRep1" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Log Out">
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#logout" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Log Out">
                <font>
                   <Font name="Segoe UI Emoji" size="14.0" />
                </font>
