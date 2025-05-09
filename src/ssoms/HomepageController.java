@@ -110,7 +110,6 @@ public class HomepageController {
     @FXML
     private TextArea cause;
 
-    @FXML
     public void initialize() {
 
         idNUm.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
