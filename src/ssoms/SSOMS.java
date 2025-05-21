@@ -16,7 +16,7 @@ public class SSOMS extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Intro.fxml"));
 
         Scene scene = new Scene(root);
         stage.setTitle("SSOMS");

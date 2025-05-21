@@ -51,38 +51,14 @@ public class HomepageController {
     @FXML
     public Button incidentRep;
 
-    private ObservableList<Person> personnelList = FXCollections.observableArrayList();
-    private ObservableList<Person> visitorList = FXCollections.observableArrayList();
+    public ObservableList<Person> personnelList = Personnels.getInstance().getPersonnelList();
+
+
     @FXML
     private GridPane gp1;
     @FXML
     private GridPane gp2;
-    @FXML
-    private GridPane gp3;
-    @FXML
-    private GridPane gp4;
-    @FXML
-    private TextField fn3;
-    @FXML
-    private TextField ln3;
-    @FXML
-    private TextField gen3;
-    @FXML
-    private TextField purpose3;
-    @FXML
-    private TableColumn<Person, String> tvfn3;
-    @FXML
-    private TableColumn<Person, String> tvln3;
-    @FXML
-    private TableColumn<Person, String> tvgen3;
-    @FXML
-    private TableColumn<Person, String> tvpurpose3;
-    @FXML
-    private TableColumn<Person, String> tvdt3;
-    @FXML
-    private DatePicker date3;
-    @FXML
-    private TableView<Person> table3;
+
     @FXML
     private ComboBox<String> area;
     @FXML
@@ -95,21 +71,8 @@ public class HomepageController {
     private TableColumn<Person, String> desigarea;
 
     private ObservableList<Person> assignedOfficers = FXCollections.observableArrayList();
-    @FXML
-    private ComboBox<String> level;
-    @FXML
-    private TextArea low;
-    @FXML
-    private TextArea medium;
-    @FXML
-    private TextArea high;
-    @FXML
-    private ComboBox<String> officers2;
-    @FXML
-    private DatePicker incidentDate;
-    @FXML
-    private TextArea cause;
 
+    @FXML
     public void initialize() {
 
         idNUm.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
@@ -119,13 +82,6 @@ public class HomepageController {
         birthDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBirthDate()));
         table.setItems(personnelList);
 
-        tvfn3.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName()));
-        tvln3.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLastName()));
-        tvgen3.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGender()));
-        tvpurpose3.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPurpose()));
-        tvdt3.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBirthDate()));
-        table3.setItems(visitorList);
-
         area.setItems(FXCollections.observableArrayList("Front Gate", "Parking Lot (Outside)", "Covered Court"));
         officers.setItems(FXCollections.observableArrayList());
         tvname2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getLastName()));
@@ -134,11 +90,6 @@ public class HomepageController {
 
         tvname2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getLastName()));
         desigarea.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPurpose()));
-        level.setItems(FXCollections.observableArrayList("Severity 1 (High)", "Severity 2 (Medium)", "Severity 3 (Low)"));
-        low.setEditable(false);
-        medium.setEditable(false);
-        high.setEditable(false);
-
     }
 
     @FXML
@@ -149,14 +100,12 @@ public class HomepageController {
         String bdate = (bday.getValue() != null) ? bday.getValue().toString() : "";
 
         if (fn.isEmpty() || ln.isEmpty() || gen.isEmpty() || bdate.isEmpty()) {
-
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Incomplete Input");
             alert.setHeaderText("Missing Information");
             alert.setContentText("Please fill in all fields before adding a visitor.");
             alert.showAndWait();
             return;
-
         }
         personnelList.add(new Person(fn, ln, gen, bdate));
         updateOfficersComboBox();
@@ -164,7 +113,6 @@ public class HomepageController {
         lastName.clear();
         gender.clear();
         bday.setValue(null);
-
     }
 
     @FXML
@@ -177,64 +125,11 @@ public class HomepageController {
             upperlbl.setText("EVENT HANDLER");
             lowerlbl.setText("home/eventHandler");
             gp2.toFront();
-        } else if (event.getSource() == visLog) {
-            upperlbl.setText("VISITOR's LOGBOOK");
-            lowerlbl.setText("home/visLog");
-            gp3.toFront();
-        } else if (event.getSource() == incidentRep) {
-            upperlbl.setText("INCIDENT REPORTS");
-            lowerlbl.setText("home/inciReport");
-            gp4.toFront();
-        }
-    }
-
-    @FXML
-    private void add3(ActionEvent event) {
-
-        String fn = fn3.getText().trim();
-        String ln = ln3.getText().trim();
-        String gen = gen3.getText().trim();
-        String purpose = purpose3.getText().trim();
-        String date = "";
-        if (date3.getValue() != null) {
-            java.time.LocalDate datePart = date3.getValue();
-            java.time.LocalTime timePart = java.time.LocalTime.now();
-            java.time.LocalDateTime dateTime = java.time.LocalDateTime.of(datePart, timePart);
-            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            date = dateTime.format(formatter);
-        }
-
-        if (fn.isEmpty() || ln.isEmpty() || gen.isEmpty() || purpose.isEmpty() || date.isEmpty()) {
-
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Incomplete Input");
-            alert.setHeaderText("Missing Information");
-            alert.setContentText("Please fill in all fields before adding a visitor.");
-            alert.showAndWait();
-            return;
-        }
-
-        visitorList.add(new Person(fn, ln, gen, date, purpose));
-        updateOfficersComboBox();
-        fn3.clear();
-        ln3.clear();
-        gen3.clear();
-        purpose3.clear();
-        date3.setValue(null);
-
-    }
-
-    @FXML
-    private void del3(ActionEvent event) {
-        Person selected = table3.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            visitorList.remove(selected);
         }
     }
 
     @FXML
     private void confirm(ActionEvent event) {
-
         String selectedOfficer = officers.getSelectionModel().getSelectedItem();
         String selectedArea = area.getSelectionModel().getSelectedItem();
 
@@ -267,7 +162,6 @@ public class HomepageController {
 
         officers.getSelectionModel().clearSelection();
         area.getSelectionModel().clearSelection();
-
     }
 
     @FXML
@@ -276,7 +170,6 @@ public class HomepageController {
         if (selected != null) {
             assignedOfficers.remove(selected);
         }
-
     }
 
     private void updateOfficersComboBox() {
@@ -286,61 +179,6 @@ public class HomepageController {
         }
 
         officers.setItems(officerNames);
-        if (officers2 != null) {
-            officers2.setItems(officerNames);
-        }
-    }
-
-    @FXML
-    private void report(ActionEvent event) {
-
-        String selectedSeverity = level.getSelectionModel().getSelectedItem();
-        String selectedOfficer = officers2.getSelectionModel().getSelectedItem();
-        String incidentCause = cause.getText().trim();
-        String reportDate = "";
-        if (incidentDate.getValue() != null) {
-            java.time.LocalDate date = incidentDate.getValue();
-            java.time.LocalTime time = java.time.LocalTime.now();
-            java.time.LocalDateTime dateTime = java.time.LocalDateTime.of(date, time);
-            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            reportDate = dateTime.format(formatter);
-        }
-
-        if (selectedSeverity == null || selectedOfficer == null || reportDate.isEmpty() || incidentCause.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Missing Fields");
-            alert.setHeaderText("Incomplete Incident Report");
-            alert.setContentText("Please make sure a severity level, officer, date, and cause are provided.");
-            alert.showAndWait();
-            return;
-        }
-
-        String reportEntry = "Officer: " + selectedOfficer
-                + "\nDate: " + reportDate
-                + "\nCause: " + incidentCause + "\n\n";
-
-        switch (selectedSeverity) {
-            case "Severity 3 (Low)":
-                low.appendText(reportEntry);
-                break;
-            case "Severity 2 (Medium)":
-                medium.appendText(reportEntry);
-                break;
-            case "Severity 1 (High)":
-                high.appendText(reportEntry);
-                break;
-        }
-
-        Alert success = new Alert(Alert.AlertType.INFORMATION);
-        success.setTitle("Incident Report Added");
-        success.setHeaderText("Success");
-        success.setContentText("Incident information has been recorded.");
-        success.showAndWait();
-
-        level.getSelectionModel().clearSelection();
-        officers2.getSelectionModel().clearSelection();
-        incidentDate.setValue(null);
-        cause.clear();
     }
 
     @FXML
@@ -358,11 +196,9 @@ public class HomepageController {
         confirmLogout.showAndWait().ifPresent(response -> {
             if (response == yesButton) {
                 try {
-                    
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginForm.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Intro.fxml"));
                     Parent root = loader.load();
 
-                    
                     Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                     stage.setScene(new Scene(root));
                     stage.setTitle("Login");
@@ -376,7 +212,6 @@ public class HomepageController {
                     errorAlert.showAndWait();
                 }
             }
-            
         });
     }
 
@@ -425,6 +260,7 @@ public class HomepageController {
         public String getPurpose() {
             return purpose.get();
         }
-    }
 
+        
+    }
 }
