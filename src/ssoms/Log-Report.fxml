@@ -21,10 +21,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="504.0" prefWidth="1043.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="ssoms.LogReportController">
+<AnchorPane id="AnchorPane" prefHeight="504.0" prefWidth="1043.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssoms.LogReportController">
    <children>
-      <VBox layoutY="-2.0" prefHeight="550.0" prefWidth="284.0" style="-fx-background-color: #228B22;">
+      <VBox layoutY="-2.0" prefHeight="550.0" prefWidth="284.0" style="-fx-background-color: #014421;">
          <children>
             <Pane prefHeight="190.0" prefWidth="284.0">
                <children>
@@ -58,9 +57,9 @@
             </Button>
             <Button fx:id="incidentRep" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="55.0" prefWidth="301.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: Segoe UI;" text="Incident Report">
                <graphic>
-                  <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="48.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../ASSETS/users.png" />
+                        <Image url="@../ASSETS/Incident.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -87,7 +86,7 @@
             </Button>
          </children>
       </VBox>
-      <Pane layoutX="284.0" layoutY="52.0" prefHeight="115.0" prefWidth="759.0" style="-fx-background-color: #008000;">
+      <Pane layoutX="284.0" layoutY="52.0" prefHeight="115.0" prefWidth="759.0" style="-fx-background-color: #27ae60; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0.5, 0, 2);">
          <children>
             <Text fx:id="upperlbl" fill="WHITE" layoutX="80.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PERSONEL">
                <font>
@@ -101,45 +100,8 @@
             </Text>
          </children>
       </Pane>
-      <StackPane layoutX="296.0" layoutY="176.0">
+      <StackPane layoutX="289.0" layoutY="176.0" prefHeight="366.0" prefWidth="751.0">
          <children>
-            <GridPane fx:id="gp4" prefHeight="365.0" prefWidth="744.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
-                     <children>
-                        <ComboBox fx:id="officers2" layoutX="14.0" layoutY="22.0" prefHeight="25.0" prefWidth="216.0" promptText="Select Officer" />
-                        <DatePicker fx:id="incidentDate" layoutX="251.0" layoutY="22.0" prefHeight="25.0" prefWidth="137.0" promptText="Date" />
-                        <Button alignment="BASELINE_LEFT" layoutX="598.0" layoutY="20.0" mnemonicParsing="false" onAction="#report" prefHeight="30.0" prefWidth="39.0" style="-fx-background-color: green; -fx-text-fill: white;">
-                           <graphic>
-                              <ImageView fitHeight="19.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../ASSETS/users.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Button>
-                        
-                        <ComboBox fx:id="level" layoutX="407.0" layoutY="22.0" prefHeight="25.0" prefWidth="137.0" promptText="Level Of Incident" />
-                        <TextArea fx:id="cause" layoutY="62.0" prefHeight="48.0" prefWidth="744.0" />
-                        <TextArea fx:id="low" layoutX="22.0" layoutY="144.0" prefHeight="215.0" prefWidth="216.0" />
-                        <Text layoutX="80.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Severity 3 (Low)" />
-                        <Text layoutX="330.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Severity 2 (Medium)" />
-                        <Text layoutX="571.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Severity 1 (High)" />
-                        <TextArea fx:id="medium" layoutX="264.0" layoutY="144.0" prefHeight="215.0" prefWidth="216.0" />
-                        <TextArea fx:id="high" layoutX="507.0" layoutY="144.0" prefHeight="215.0" prefWidth="216.0" />
-                     </children>
-                  </Pane>
-               </children>
-            </GridPane>
             <GridPane fx:id="gp3" prefHeight="365.0" prefWidth="744.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -154,11 +116,11 @@
                         <TextField fx:id="ln3" layoutX="174.0" layoutY="21.0" promptText="Last Name" />
                         <TextField fx:id="gen3" layoutX="333.0" layoutY="22.0" prefHeight="25.0" prefWidth="52.0" promptText="Gender" />
                         <TextField fx:id="purpose3" layoutX="392.0" layoutY="21.0" promptText="Purpose" />
-                        <Button alignment="BASELINE_LEFT" layoutX="605.0" layoutY="19.0" mnemonicParsing="false" onAction="#add3" prefHeight="30.0" prefWidth="39.0" style="-fx-background-color: green; -fx-text-fill: white;">
+                        <Button alignment="BASELINE_LEFT" layoutX="628.0" layoutY="13.0" mnemonicParsing="false" onAction="#add3" prefHeight="30.0" prefWidth="39.0" style="-fx-background-color: green; -fx-text-fill: white;">
                            <graphic>
-                              <ImageView fitHeight="19.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="30.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../ASSETS/users.png" />
+                                    <Image url="@../ASSETS/add.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -166,7 +128,7 @@
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <TableView fx:id="table3" layoutY="63.0" prefHeight="300.0" prefWidth="744.0">
+                        <TableView fx:id="table3" layoutY="63.0" prefHeight="308.0" prefWidth="744.0">
                            <columns>
                               <TableColumn fx:id="tvfn3" prefWidth="159.99996948242188" text="First Name" />
                               <TableColumn fx:id="tvln3" prefWidth="140.80001831054688" text="Last Name" />
@@ -175,18 +137,67 @@
                               <TableColumn fx:id="tvdt3" prefWidth="148.0" text="Date/Time" />
                            </columns>
                         </TableView>
-                        <DatePicker fx:id="date3" layoutX="548.0" layoutY="21.0" prefHeight="25.0" prefWidth="52.0" promptText="D" />
-                        <Button alignment="BASELINE_LEFT" layoutX="671.0" layoutY="19.0" mnemonicParsing="false" onAction="#del3" prefHeight="30.0" prefWidth="26.0" style="-fx-background-color: red; -fx-text-fill: white;">
+                        <DatePicker fx:id="date3" layoutX="548.0" layoutY="21.0" prefHeight="25.0" prefWidth="74.0" promptText="Date" />
+                        <Button alignment="BASELINE_LEFT" layoutX="686.0" layoutY="13.0" mnemonicParsing="false" onAction="#del3" prefHeight="30.0" prefWidth="26.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white;">
                            <font>
                               <Font size="14.0" />
                            </font>
                            <graphic>
-                              <ImageView fitHeight="19.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="31.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../ASSETS/users.png" />
+                                    <Image url="@../ASSETS/trashbin.png" />
                                  </image>
                               </ImageView>
                            </graphic>
+                        </Button>
+                     </children>
+                  </Pane>
+               </children>
+            </GridPane>
+            <GridPane fx:id="gp4" prefHeight="365.0" prefWidth="744.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
+                     <children>
+                        <ComboBox fx:id="officers2" layoutX="14.0" layoutY="22.0" prefHeight="25.0" prefWidth="216.0" promptText="Select Officer" />
+                        <DatePicker fx:id="incidentDate" layoutX="251.0" layoutY="22.0" prefHeight="25.0" prefWidth="137.0" promptText="Date" />
+                        <Button alignment="BASELINE_LEFT" layoutX="588.0" layoutY="13.0" mnemonicParsing="false" onAction="#report" prefHeight="30.0" prefWidth="39.0" style="-fx-background-color: green; -fx-text-fill: white;">
+                           <graphic>
+                              <ImageView fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../ASSETS/add.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        
+                        <ComboBox fx:id="level" layoutX="407.0" layoutY="22.0" prefHeight="25.0" prefWidth="137.0" promptText="Level Of Incident" />
+                        <TextArea fx:id="cause" layoutY="62.0" prefHeight="8.0" prefWidth="751.0" />
+                        <TextArea fx:id="low" layoutX="22.0" layoutY="144.0" prefHeight="215.0" prefWidth="216.0" />
+                        <Text layoutX="80.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Severity 3 (Low)" />
+                        <Text layoutX="330.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Severity 2 (Medium)" />
+                        <Text layoutX="571.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Severity 1 (High)" />
+                        <TextArea fx:id="medium" layoutX="264.0" layoutY="144.0" prefHeight="215.0" prefWidth="216.0" />
+                        <TextArea fx:id="high" layoutX="507.0" layoutY="144.0" prefHeight="215.0" prefWidth="216.0" />
+                        <Button alignment="BASELINE_LEFT" layoutX="658.0" layoutY="13.0" mnemonicParsing="false" onAction="#report" prefHeight="30.0" prefWidth="39.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white;">
+                           <graphic>
+                              <ImageView fitHeight="33.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../ASSETS/trashbin.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Button>
                      </children>
                   </Pane>
