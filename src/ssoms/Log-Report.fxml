@@ -203,7 +203,7 @@
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../ASSETS/add.png" />
+                                    <Image url="@../ASSETS/camera.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -217,7 +217,7 @@
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../ASSETS/add.png" />
+                                    <Image url="@../ASSETS/printer.png" />
                                  </image>
                               </ImageView>
                            </graphic>
