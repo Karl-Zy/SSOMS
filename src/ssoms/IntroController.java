@@ -23,6 +23,9 @@ public class IntroController {
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
+            stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
+            stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,6 +39,9 @@ public class IntroController {
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
+            stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
+            stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
         } catch (IOException e) {
             e.printStackTrace();
         }

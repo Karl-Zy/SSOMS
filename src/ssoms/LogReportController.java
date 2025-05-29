@@ -14,8 +14,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class LogReportController {
@@ -51,6 +54,7 @@ public class LogReportController {
     private DatePicker incidentDate;
     @FXML
     private ComboBox<String> level;
+   
     @FXML
     private TextArea cause;
     @FXML
@@ -59,11 +63,14 @@ public class LogReportController {
     private TextArea medium;
     @FXML
     private TextArea high;
+    @FXML
+    private ImageView img;
 
-    // Incident reports storage can be just appended to TextAreas like old code
+    private File attachedImageFile = null; // ✅ Track attached image file
+
     @FXML
     private void initialize() {
-        // Initialize visitor TableView columns
+        // Initialize visitor log table
         tvfn3.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName()));
         tvln3.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLastName()));
         tvgen3.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGender()));
@@ -71,35 +78,44 @@ public class LogReportController {
         tvdt3.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBirthDate()));
         table3.setItems(visitorList);
 
-        // Populate severity level ComboBox
-        level.setItems(FXCollections.observableArrayList("Severity 1 (High)", "Severity 2 (Medium)", "Severity 3 (Low)"));
+        // Incident severity levels — ensure this is called!
+        level.setItems(FXCollections.observableArrayList(
+                "Severity 1 (High)",
+                "Severity 2 (Medium)",
+                "Severity 3 (Low)"
+        ));
 
-        // Make severity text areas non-editable
-        low.setEditable(false);
-        medium.setEditable(false);
-        high.setEditable(false);
-
-        // Start showing visitor log pane by default
-        gp3.setVisible(true);
-        gp4.setVisible(false);
-
-        // Initialize officers2 ComboBox empty - update it as needed
-        officers2.setItems(FXCollections.observableArrayList());
-
+        // Officer names — populate from Personnels singleton
         ObservableList<String> officerNames = FXCollections.observableArrayList();
         for (HomepageController.Person p : Personnels.getInstance().getPersonnelList()) {
             officerNames.add(p.getFirstName() + " " + p.getLastName());
         }
+        officers2.setItems(officerNames);
 
-        // Listen to personnel list changes to update officers ComboBox automatically
+        // Listen for personnel changes to update officers ComboBox dynamically
         Personnels.getInstance().getPersonnelList().addListener((javafx.collections.ListChangeListener.Change<? extends HomepageController.Person> change) -> {
             officerNames.clear();
             for (HomepageController.Person p : Personnels.getInstance().getPersonnelList()) {
                 officerNames.add(p.getFirstName() + " " + p.getLastName());
             }
+            officers2.setItems(officerNames);
         });
+        
+        
 
-        officers2.setItems(officerNames);
+        // Lock incident log text areas to read-only
+        low.setEditable(false);
+        medium.setEditable(false);
+        high.setEditable(false);
+
+        // Set initial pane visibility
+        gp3.setVisible(true);
+        gp4.setVisible(false);
+
+        officers2.setPromptText("Select Officer");
+        level.setPromptText("Select Severity Level");
+      
+
     }
 
     @FXML
@@ -126,7 +142,6 @@ public class LogReportController {
         File file = new File("visitor_log.txt");
 
         try (FileWriter writer = new FileWriter(file, true)) {
-            // Write header if the file is empty
             if (file.length() == 0) {
                 writer.write(String.format("%-20s%-20s%-10s%-25s%-20s\n",
                         "First Name", "Last Name", "Gender", "Purpose", "Date"));
@@ -173,9 +188,13 @@ public class LogReportController {
             return;
         }
 
+        String imagePath = (attachedImageFile != null) ? attachedImageFile.getAbsolutePath() : "No Image Attached";
+
         String reportEntry = "Officer: " + selectedOfficer
                 + "\nDate: " + reportDate
-                + "\nCause: " + incidentCause + "\n\n";
+                + "\nCause: " + incidentCause
+                + "\nImage: " + imagePath
+                + "\n\n";
 
         switch (selectedSeverity) {
             case "Severity 3 (Low)":
@@ -192,19 +211,16 @@ public class LogReportController {
                 return;
         }
 
-        showAlert(Alert.AlertType.INFORMATION,
-                "Incident Report Added", "Incident information has been recorded.");
+        showAlert(Alert.AlertType.INFORMATION, "Incident Report Added", "Incident information has been recorded.");
 
         File file = new File("incident_report_log.txt");
 
         try (FileWriter writer = new FileWriter(file, true)) {
-            // Write header if file is empty
             if (file.length() == 0) {
-                writer.write(String.format("%-25s%-20s%-40s%-20s\n",
-                        "Officer Name", "Severity Level", "Incident Cause", "Date"));
+                writer.write(String.format("%-25s%-20s%-40s%-20s%-50s\n",
+                        "Officer Name", "Severity Level", "Incident Cause", "Date", "Image Path"));
             }
 
-            // Write the actual incident data
             writer.write(String.format("%-25s%-20s%-40s%-20s\n",
                     selectedOfficer, selectedSeverity, incidentCause.replace("\n", " "), reportDate));
 
@@ -213,11 +229,12 @@ public class LogReportController {
             e.printStackTrace();
         }
 
-        level.getSelectionModel()
-                .clearSelection();
+        level.getSelectionModel().clearSelection();
         officers2.getSelectionModel().clearSelection();
         incidentDate.setValue(null);
         cause.clear();
+        img.setImage(null);                  // ✅ Clear image preview
+        attachedImageFile = null;            // ✅ Reset image file reference
     }
 
     @FXML
@@ -225,13 +242,13 @@ public class LogReportController {
         if (event.getSource() == visLog) {
             gp3.setVisible(true);
             gp4.setVisible(false);
-            upperlbl.setText("Visitor Log");
-            lowerlbl.setText("Record of visitors to the school.");
+            upperlbl.setText("VISITOR's LOGBOOK");
+            lowerlbl.setText("intro/visitor's");
         } else if (event.getSource() == incidentRep) {
             gp3.setVisible(false);
             gp4.setVisible(true);
-            upperlbl.setText("Incident Report");
-            lowerlbl.setText("Report incidents handled by security officers.");
+            upperlbl.setText("INCIDENT REPORT");
+            lowerlbl.setText("intro/inciReport");
         }
     }
 
@@ -243,7 +260,6 @@ public class LogReportController {
         alert.showAndWait();
     }
 
-    // You can add more helper methods here if needed
     @FXML
     private void logout(ActionEvent event) {
         Alert confirmLogout = new Alert(Alert.AlertType.CONFIRMATION);
@@ -260,7 +276,6 @@ public class LogReportController {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Intro.fxml"));
                     Parent root = loader.load();
-
                     Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                     stage.setScene(new Scene(root));
                     stage.setTitle("Login");
@@ -277,16 +292,35 @@ public class LogReportController {
         });
     }
 
-    public void setPersonnelList(ObservableList<HomepageController.Person> personnelList) {
-        // Create an ObservableList of String (officer names) that updates automatically when personnelList changes
-        ObservableList<String> officerNames = FXCollections.observableArrayList();
+    @FXML
+    private void attachimg(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Incident Image");
+        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif");
+        fileChooser.getExtensionFilters().add(imageFilter);
+        File selectedFile = fileChooser.showOpenDialog(((Button) event.getSource()).getScene().getWindow());
 
-        // Fill officerNames initially
+        if (selectedFile != null) {
+            try {
+                Image image = new Image(selectedFile.toURI().toString());
+                img.setImage(image);
+                attachedImageFile = selectedFile;
+                showAlert(Alert.AlertType.INFORMATION, "Image Attached", "Incident photo has been successfully attached.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Image Load Error", "Unable to load selected image.");
+            }
+        } else {
+            showAlert(Alert.AlertType.INFORMATION, "No Image Selected", "No image was chosen.");
+        }
+    }
+
+    public void setPersonnelList(ObservableList<HomepageController.Person> personnelList) {
+        ObservableList<String> officerNames = FXCollections.observableArrayList();
         for (HomepageController.Person p : personnelList) {
             officerNames.add(p.getFirstName() + " " + p.getLastName());
         }
 
-        // Listen for changes in personnelList to update officerNames automatically
         personnelList.addListener((javafx.collections.ListChangeListener.Change<? extends HomepageController.Person> change) -> {
             officerNames.clear();
             for (HomepageController.Person p : personnelList) {
@@ -294,7 +328,6 @@ public class LogReportController {
             }
         });
 
-        // Set officerNames as the ComboBox items
         officers2.setItems(officerNames);
     }
 }

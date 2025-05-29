@@ -21,9 +21,13 @@ public class SSOMS extends Application {
         Scene scene = new Scene(root);
         stage.setTitle("SSOMS");
         stage.setScene(scene);
+
         stage.show();
-        stage.setResizable(false); 
-          
+        stage.setResizable(false);
+        javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
+        stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
+
     }
 
     /**

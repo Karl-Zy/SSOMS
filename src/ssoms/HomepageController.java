@@ -46,13 +46,10 @@ public class HomepageController {
     public Button perinf;
     @FXML
     public Button orgChart;
-    @FXML
     public Button visLog;
-    @FXML
     public Button incidentRep;
 
     public ObservableList<Person> personnelList = Personnels.getInstance().getPersonnelList();
-
 
     @FXML
     private GridPane gp1;
@@ -62,6 +59,8 @@ public class HomepageController {
     @FXML
     private ComboBox<String> area;
     @FXML
+    private ComboBox<String> event;
+    @FXML
     private ComboBox<String> officers;
     @FXML
     private TableView<Person> table2;
@@ -69,10 +68,15 @@ public class HomepageController {
     private TableColumn<Person, String> tvname2;
     @FXML
     private TableColumn<Person, String> desigarea;
+    @FXML
+    private TableColumn<Person, String> eventtb;
 
     private ObservableList<Person> assignedOfficers = FXCollections.observableArrayList();
-
     @FXML
+    private TextField otherEvents;
+    @FXML
+    private TextField otherArea;
+
     public void initialize() {
 
         idNUm.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
@@ -83,13 +87,36 @@ public class HomepageController {
         table.setItems(personnelList);
 
         area.setItems(FXCollections.observableArrayList("Front Gate", "Parking Lot (Outside)", "Covered Court"));
+        area.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && !newVal.isEmpty()) {
+                otherArea.clear();
+                otherArea.setDisable(true);
+            } else {
+                otherArea.setDisable(false);
+            }
+        });
+
+        // Enable other text fields initially
+        otherEvents.setDisable(false);
+        otherArea.setDisable(false);
+        event.setItems(FXCollections.observableArrayList("Pasiklaban", "Foundation"));
+        event.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && !newVal.isEmpty()) {
+                otherEvents.clear();
+                otherEvents.setDisable(true);
+            } else {
+                otherEvents.setDisable(false);
+            }
+        });
+
+        // If you want the otherEvents enabled when nothing is selected initially
+        otherEvents.setDisable(false);
         officers.setItems(FXCollections.observableArrayList());
-        tvname2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getLastName()));
-        desigarea.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPurpose()));
-        table2.setItems(assignedOfficers);
 
         tvname2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getLastName()));
         desigarea.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPurpose()));
+        eventtb.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEvent()));
+        table2.setItems(assignedOfficers);
     }
 
     @FXML
@@ -100,13 +127,10 @@ public class HomepageController {
         String bdate = (bday.getValue() != null) ? bday.getValue().toString() : "";
 
         if (fn.isEmpty() || ln.isEmpty() || gen.isEmpty() || bdate.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Incomplete Input");
-            alert.setHeaderText("Missing Information");
-            alert.setContentText("Please fill in all fields before adding a visitor.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.WARNING, "Incomplete Input", "Please fill in all fields before adding a visitor.");
             return;
         }
+
         personnelList.add(new Person(fn, ln, gen, bdate));
         updateOfficersComboBox();
         firstName.clear();
@@ -121,6 +145,7 @@ public class HomepageController {
             upperlbl.setText("PERSONNEL");
             lowerlbl.setText("home/personnels");
             gp1.toFront();
+            
         } else if (event.getSource() == orgChart) {
             upperlbl.setText("EVENT HANDLER");
             lowerlbl.setText("home/eventHandler");
@@ -129,16 +154,26 @@ public class HomepageController {
     }
 
     @FXML
-    private void confirm(ActionEvent event) {
+    private void confirm(ActionEvent eventAction) {
         String selectedOfficer = officers.getSelectionModel().getSelectedItem();
         String selectedArea = area.getSelectionModel().getSelectedItem();
+        String otherAreaText = otherArea.getText().trim();
+        String selectedEvent = event.getSelectionModel().getSelectedItem();
+        String otherEventText = otherEvents.getText().trim();
 
-        if (selectedOfficer == null || selectedArea == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Incomplete Selection");
-            alert.setHeaderText("Selection Missing");
-            alert.setContentText("Please select both an officer and an area.");
-            alert.showAndWait();
+        if (selectedOfficer == null) {
+            showAlert(Alert.AlertType.WARNING, "Incomplete Selection", "Please select an officer.");
+            return;
+        }
+
+        String finalArea = (selectedArea != null && !selectedArea.isEmpty()) ? selectedArea
+                : (!otherAreaText.isEmpty() ? otherAreaText : null);
+
+        String finalEvent = (selectedEvent != null && !selectedEvent.isEmpty()) ? selectedEvent
+                : (!otherEventText.isEmpty() ? otherEventText : null);
+
+        if (finalArea == null || finalEvent == null) {
+            showAlert(Alert.AlertType.WARNING, "Incomplete Selection", "Please select or enter both an area and an event.");
             return;
         }
 
@@ -148,20 +183,19 @@ public class HomepageController {
 
         for (Person p : assignedOfficers) {
             if ((p.getFirstName() + " " + p.getLastName()).equals(selectedOfficer)) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Duplicate Assignment");
-                alert.setHeaderText("Officer Already Assigned");
-                alert.setContentText("This officer is already assigned.");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.INFORMATION, "Duplicate Assignment", "This officer is already assigned.");
                 return;
             }
         }
 
-        Person officer = new Person(fn, ln, "", "", selectedArea);
+        Person officer = new Person(fn, ln, "", "", finalArea, finalEvent);
         assignedOfficers.add(officer);
 
         officers.getSelectionModel().clearSelection();
         area.getSelectionModel().clearSelection();
+        event.getSelectionModel().clearSelection();
+        otherArea.clear();
+        otherEvents.clear();
     }
 
     @FXML
@@ -177,13 +211,11 @@ public class HomepageController {
         for (Person p : personnelList) {
             officerNames.add(p.getFirstName() + " " + p.getLastName());
         }
-
         officers.setItems(officerNames);
     }
 
     @FXML
     private void logout(ActionEvent event) {
-
         Alert confirmLogout = new Alert(Alert.AlertType.CONFIRMATION);
         confirmLogout.setTitle("Confirm Logout");
         confirmLogout.setHeaderText("Are you sure you want to log out?");
@@ -198,21 +230,24 @@ public class HomepageController {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Intro.fxml"));
                     Parent root = loader.load();
-
                     Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                     stage.setScene(new Scene(root));
                     stage.setTitle("Login");
                     stage.show();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                    errorAlert.setTitle("Error");
-                    errorAlert.setHeaderText("Logout Failed");
-                    errorAlert.setContentText("Unable to load the login screen.");
-                    errorAlert.showAndWait();
+                    showAlert(Alert.AlertType.ERROR, "Logout Failed", "Unable to load the login screen.");
                 }
             }
         });
+    }
+
+    private void showAlert(Alert.AlertType type, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(type.name());
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     public static class Person {
@@ -223,18 +258,24 @@ public class HomepageController {
         private final SimpleStringProperty gender;
         private final SimpleStringProperty birthDate;
         private final SimpleStringProperty purpose;
-
-        public Person(String firstName, String lastName, String gender, String birthDate) {
-            this(firstName, lastName, gender, birthDate, "");
-        }
+        private final SimpleStringProperty event;
 
         public Person(String firstName, String lastName, String gender, String birthDate, String purpose) {
+            this(firstName, lastName, gender, birthDate, purpose, "");
+        }
+
+        public Person(String firstName, String lastName, String gender, String birthDate) {
+            this(firstName, lastName, gender, birthDate, "", "");
+        }
+
+        public Person(String firstName, String lastName, String gender, String birthDate, String purpose, String event) {
             this.id = new SimpleStringProperty(String.valueOf((int) (Math.random() * 9000 + 1000)));
             this.firstName = new SimpleStringProperty(firstName);
             this.lastName = new SimpleStringProperty(lastName);
             this.gender = new SimpleStringProperty(gender);
             this.birthDate = new SimpleStringProperty(birthDate);
             this.purpose = new SimpleStringProperty(purpose);
+            this.event = new SimpleStringProperty(event);
         }
 
         public String getId() {
@@ -261,6 +302,8 @@ public class HomepageController {
             return purpose.get();
         }
 
-        
+        public String getEvent() {
+            return event.get();
+        }
     }
 }

@@ -1,4 +1,0 @@
-Officer Name             Severity Level      Incident Cause                          Date                
-asdf asdf                Severity 3 (Low)    asdasda                                 2025-05-08 00:40:18 
-asdf asdf                Severity 2 (Medium) adasdasdsadasdsadsad                    2025-05-21 00:40:42 
-asd asd                  Severity 2 (Medium) asdasdasd                               2025-05-21 00:45:55 
