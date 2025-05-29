@@ -145,7 +145,7 @@ public class HomepageController {
             upperlbl.setText("PERSONNEL");
             lowerlbl.setText("home/personnels");
             gp1.toFront();
-            
+
         } else if (event.getSource() == orgChart) {
             upperlbl.setText("EVENT HANDLER");
             lowerlbl.setText("home/eventHandler");
@@ -234,6 +234,9 @@ public class HomepageController {
                     stage.setScene(new Scene(root));
                     stage.setTitle("Login");
                     stage.show();
+                    javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
+                    stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
+                    stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
                 } catch (IOException e) {
                     e.printStackTrace();
                     showAlert(Alert.AlertType.ERROR, "Logout Failed", "Unable to load the login screen.");

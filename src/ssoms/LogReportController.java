@@ -54,7 +54,7 @@ public class LogReportController {
     private DatePicker incidentDate;
     @FXML
     private ComboBox<String> level;
-   
+
     @FXML
     private TextArea cause;
     @FXML
@@ -100,8 +100,6 @@ public class LogReportController {
             }
             officers2.setItems(officerNames);
         });
-        
-        
 
         // Lock incident log text areas to read-only
         low.setEditable(false);
@@ -114,7 +112,6 @@ public class LogReportController {
 
         officers2.setPromptText("Select Officer");
         level.setPromptText("Select Severity Level");
-      
 
     }
 
@@ -280,6 +277,9 @@ public class LogReportController {
                     stage.setScene(new Scene(root));
                     stage.setTitle("Login");
                     stage.show();
+                    javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
+                    stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
+                    stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
                 } catch (IOException e) {
                     e.printStackTrace();
                     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
