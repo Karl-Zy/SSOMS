@@ -201,6 +201,7 @@ public class HomepageController {
     @FXML
     private void del2(ActionEvent event) {
         Person selected = table2.getSelectionModel().getSelectedItem();
+
         if (selected != null) {
             assignedOfficers.remove(selected);
         }
@@ -251,6 +252,15 @@ public class HomepageController {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void del3(ActionEvent event) {
+        Person selected2 = table.getSelectionModel().getSelectedItem();
+        if (selected2 != null) {
+            personnelList.remove(selected2);
+        }
+
     }
 
     public static class Person {

@@ -16,10 +16,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.animation.ScaleTransition;
+import javafx.util.Duration;
 
 public class LogReportController {
 
@@ -58,15 +62,18 @@ public class LogReportController {
     @FXML
     private TextArea cause;
     @FXML
-    private TextArea low;
+    private VBox low;
     @FXML
-    private TextArea medium;
+    private VBox medium;
     @FXML
-    private TextArea high;
+    private VBox high;
     @FXML
     private ImageView img;
 
-    private File attachedImageFile = null; // ✅ Track attached image file
+    private File attachedImageFile = null; // Track attached image file
+
+    // Changed from Label to VBox for selected incident report container
+    private VBox selectedIncidentBox = null;
 
     @FXML
     private void initialize() {
@@ -78,21 +85,21 @@ public class LogReportController {
         tvdt3.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBirthDate()));
         table3.setItems(visitorList);
 
-        // Incident severity levels — ensure this is called!
+        // Incident severity levels
         level.setItems(FXCollections.observableArrayList(
                 "Severity 1 (High)",
                 "Severity 2 (Medium)",
                 "Severity 3 (Low)"
         ));
 
-        // Officer names — populate from Personnels singleton
+        // Populate officers ComboBox
         ObservableList<String> officerNames = FXCollections.observableArrayList();
         for (HomepageController.Person p : Personnels.getInstance().getPersonnelList()) {
             officerNames.add(p.getFirstName() + " " + p.getLastName());
         }
         officers2.setItems(officerNames);
 
-        // Listen for personnel changes to update officers ComboBox dynamically
+        // Update officers ComboBox dynamically if personnel changes
         Personnels.getInstance().getPersonnelList().addListener((javafx.collections.ListChangeListener.Change<? extends HomepageController.Person> change) -> {
             officerNames.clear();
             for (HomepageController.Person p : Personnels.getInstance().getPersonnelList()) {
@@ -101,11 +108,6 @@ public class LogReportController {
             officers2.setItems(officerNames);
         });
 
-        // Lock incident log text areas to read-only
-        low.setEditable(false);
-        medium.setEditable(false);
-        high.setEditable(false);
-
         // Set initial pane visibility
         gp3.setVisible(true);
         gp4.setVisible(false);
@@ -113,6 +115,29 @@ public class LogReportController {
         officers2.setPromptText("Select Officer");
         level.setPromptText("Select Severity Level");
 
+        addHoverEffect(low);
+        addHoverEffect(medium);
+        addHoverEffect(high);
+    }
+
+    private void addHoverEffect(VBox box) {
+        ScaleTransition scaleUp = new ScaleTransition(Duration.millis(150), box);
+        scaleUp.setToX(1.1);
+        scaleUp.setToY(1.1);
+
+        ScaleTransition scaleDown = new ScaleTransition(Duration.millis(150), box);
+        scaleDown.setToX(1.0);
+        scaleDown.setToY(1.0);
+
+        box.setOnMouseEntered(e -> {
+            scaleDown.stop();
+            scaleUp.playFromStart();
+        });
+
+        box.setOnMouseExited(e -> {
+            scaleUp.stop();
+            scaleDown.playFromStart();
+        });
     }
 
     @FXML
@@ -191,17 +216,13 @@ public class LogReportController {
                 + "\nDate: " + reportDate
                 + "\nCause: " + incidentCause
                 + "\nImage: " + imagePath
-                + "\n\n";
+                + "\n";
 
         switch (selectedSeverity) {
             case "Severity 3 (Low)":
-                low.appendText(reportEntry);
-                break;
             case "Severity 2 (Medium)":
-                medium.appendText(reportEntry);
-                break;
             case "Severity 1 (High)":
-                high.appendText(reportEntry);
+                addIncidentReport(selectedSeverity, reportEntry);
                 break;
             default:
                 showAlert(Alert.AlertType.WARNING, "Unknown Severity", "Selected severity level is not recognized.");
@@ -230,8 +251,78 @@ public class LogReportController {
         officers2.getSelectionModel().clearSelection();
         incidentDate.setValue(null);
         cause.clear();
-        img.setImage(null);                  // ✅ Clear image preview
-        attachedImageFile = null;            // ✅ Reset image file reference
+        img.setImage(null);                  // Clear image preview
+        attachedImageFile = null;            // Reset image file reference
+    }
+
+    // Helper method to add incident report VBox to corresponding AnchorPane
+    private void addIncidentReport(String severity, String text) {
+        VBox reportBox = new VBox(5);
+        reportBox.setPickOnBounds(true);
+        reportBox.setStyle("-fx-padding: 5; -fx-background-color: #f0f0f0; -fx-border-color: #ccc;");
+        reportBox.setMaxWidth(350);
+
+        Label reportLabel = new Label(text);
+        reportLabel.setWrapText(true);
+
+        reportBox.getChildren().add(reportLabel);
+
+        // Select the entire VBox when clicked
+        reportBox.setOnMouseClicked(e -> {
+            if (selectedIncidentBox != null) {
+                selectedIncidentBox.setStyle("-fx-padding: 5; -fx-background-color: #f0f0f0; -fx-border-color: #ccc;");
+            }
+            selectedIncidentBox = reportBox;
+            reportBox.setStyle("-fx-padding: 5; -fx-background-color: lightblue; -fx-border-color: blue;");
+        });
+
+        // Initialize expanded state as false if you want to use it later
+        reportBox.setUserData(false);
+
+        AnchorPane container = null;
+        switch (severity) {
+            case "Severity 3 (Low)":
+                ScrollPane lowScroll = (ScrollPane) low.getChildren().get(0);
+                container = (AnchorPane) lowScroll.getContent();
+                break;
+            case "Severity 2 (Medium)":
+                ScrollPane mediumScroll = (ScrollPane) medium.getChildren().get(0);
+                container = (AnchorPane) mediumScroll.getContent();
+                break;
+            case "Severity 1 (High)":
+                ScrollPane highScroll = (ScrollPane) high.getChildren().get(0);
+                container = (AnchorPane) highScroll.getContent();
+                break;
+        }
+
+        if (container != null) {
+            container.getChildren().add(reportBox);
+        }
+    }
+
+    @FXML
+    private void deleteIncident(ActionEvent event) {
+        if (selectedIncidentBox == null) {
+            showAlert(Alert.AlertType.WARNING, "No Selection", "Please select an incident report to delete.");
+            return;
+        }
+
+        boolean removed = false;
+        for (VBox vbox : new VBox[]{low, medium, high}) {
+            ScrollPane sp = (ScrollPane) vbox.getChildren().get(0);
+            AnchorPane pane = (AnchorPane) sp.getContent();
+            if (pane.getChildren().remove(selectedIncidentBox)) {
+                removed = true;
+                break;
+            }
+        }
+
+        if (removed) {
+            selectedIncidentBox = null;
+            showAlert(Alert.AlertType.INFORMATION, "Deleted", "Selected incident report has been deleted.");
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to delete the selected incident report.");
+        }
     }
 
     @FXML
@@ -251,7 +342,6 @@ public class LogReportController {
 
     private void showAlert(Alert.AlertType type, String header, String content) {
         Alert alert = new Alert(type);
-        alert.setTitle("Notification");
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
@@ -296,38 +386,14 @@ public class LogReportController {
     private void attachimg(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Incident Image");
-        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif");
-        fileChooser.getExtensionFilters().add(imageFilter);
-        File selectedFile = fileChooser.showOpenDialog(((Button) event.getSource()).getScene().getWindow());
-
-        if (selectedFile != null) {
-            try {
-                Image image = new Image(selectedFile.toURI().toString());
-                img.setImage(image);
-                attachedImageFile = selectedFile;
-                showAlert(Alert.AlertType.INFORMATION, "Image Attached", "Incident photo has been successfully attached.");
-            } catch (Exception e) {
-                e.printStackTrace();
-                showAlert(Alert.AlertType.ERROR, "Image Load Error", "Unable to load selected image.");
-            }
-        } else {
-            showAlert(Alert.AlertType.INFORMATION, "No Image Selected", "No image was chosen.");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+        File file = fileChooser.showOpenDialog(null);
+        if (file != null) {
+            attachedImageFile = file;
+            Image image = new Image(file.toURI().toString());
+            img.setImage(image);
         }
-    }
-
-    public void setPersonnelList(ObservableList<HomepageController.Person> personnelList) {
-        ObservableList<String> officerNames = FXCollections.observableArrayList();
-        for (HomepageController.Person p : personnelList) {
-            officerNames.add(p.getFirstName() + " " + p.getLastName());
-        }
-
-        personnelList.addListener((javafx.collections.ListChangeListener.Change<? extends HomepageController.Person> change) -> {
-            officerNames.clear();
-            for (HomepageController.Person p : personnelList) {
-                officerNames.add(p.getFirstName() + " " + p.getLastName());
-            }
-        });
-
-        officers2.setItems(officerNames);
     }
 }

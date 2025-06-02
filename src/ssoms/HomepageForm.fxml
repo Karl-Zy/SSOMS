@@ -183,7 +183,7 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button onAction="#del2" prefHeight="34.0" prefWidth="26.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 6;">
+                        <Button onAction="#del3" prefHeight="34.0" prefWidth="26.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 6;">
                            <graphic>
                               <ImageView fitHeight="35.0" fitWidth="30.0" preserveRatio="true">
                                  <image>
