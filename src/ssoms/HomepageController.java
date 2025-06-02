@@ -77,6 +77,7 @@ public class HomepageController {
     @FXML
     private TextField otherArea;
 
+    @FXML
     public void initialize() {
 
         idNUm.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
@@ -86,7 +87,7 @@ public class HomepageController {
         birthDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBirthDate()));
         table.setItems(personnelList);
 
-        area.setItems(FXCollections.observableArrayList("Front Gate", "Parking Lot (Outside)", "Covered Court"));
+        area.setItems(FXCollections.observableArrayList("", "Front Gate", "Parking Lot (Outside)", "Covered Court"));
         area.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null && !newVal.isEmpty()) {
                 otherArea.clear();
@@ -99,7 +100,8 @@ public class HomepageController {
         // Enable other text fields initially
         otherEvents.setDisable(false);
         otherArea.setDisable(false);
-        event.setItems(FXCollections.observableArrayList("Pasiklaban", "Foundation"));
+
+        event.setItems(FXCollections.observableArrayList("", "Pasiklaban", "Foundation"));
         event.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null && !newVal.isEmpty()) {
                 otherEvents.clear();
